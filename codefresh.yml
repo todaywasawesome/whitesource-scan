@@ -1,0 +1,23 @@
+version: "1.0"
+stages:
+  - "Clone"
+  - "whitesource"
+  
+steps:
+  Clone:
+    title: Running docker image
+    type: git-clone
+    arguments:
+      working_directory: '/codefresh/volume'
+      repo: 'whitesource/npm-plugin'
+      git: github
+      revision: 'master'
+      
+  whitesource step:
+    title: 'Whitesource free style'
+    image: whitesourcedocker/whitesource-scan:1.2.1
+    commands:
+      - curl -LJO https://github.com/whitesource/unified-agent-distribution/raw/master/standAlone/wss_agent.sh
+      - chmod +x wss_agent.sh
+      - ./wss_agent.sh -c wss-unified-agent.config -apiKey ${{apiKey}} -project ${{projectName}} -d ${{scanFolderName}}
+    stage: "whitesource"
