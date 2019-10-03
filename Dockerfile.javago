@@ -49,6 +49,7 @@ RUN set -eux; \
 		musl-dev \
 		openssl \
 		go \
+		git \
 	; \
 	export \
 # set GOROOT_BOOTSTRAP such that we can actually build Go
@@ -97,4 +98,4 @@ WORKDIR $GOPATH
 
 ADD https://github.com/whitesource/unified-agent-distribution/releases/latest/download/wss-unified-agent.jar /bin/wss-unified-agent.jar
 
-CMD java -jar wss-unified-agent.jar "$@"
+CMD java -jar /bin/wss-unified-agent.jar "$@"
